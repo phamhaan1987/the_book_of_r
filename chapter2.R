@@ -181,3 +181,29 @@ h_vec
 a_vec
 
 # Vector-Oriented Behavior
+foo <- 5.5:0.5
+foo
+foo - c(2,4,6,8,10,12)
+bar <- c(1,-1)
+foo * bar
+baz <- c(1,-1,0.5,-0.5)
+foo * baz   # Warning message: In foo * bar: longer object length is not a multiple of shorter object length
+qux <- 3
+foo + qux
+foo
+sum(foo)
+prod(foo)
+foo
+foo[c(1,3,5,6)] <- c(-99,99)
+foo
+
+# Exercises
+a_vec = c(2,0.5,1,2,0.5,1,2,0.5,1)
+a_vec
+a_vec[1:length(a_vec)] <- seq(from=1, to=1, length.out=3)
+a_vec
+5/9 * (c(45, 77, 20, 19, 101, 120, 212)-32)     # C = 5/9 * (F-32)
+c_vec = c(2,4,6) * rep(c(1,2), each=3)  # the same with c(2,4,6,4,8,12)
+c_vec
+c_vec[2:5] <- c(-0.1,-100)
+c_vec
