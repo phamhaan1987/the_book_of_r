@@ -69,6 +69,9 @@ myvec3
 
 # Sequences, Repetition, Sorting, and Lengths
 3:27    # Sequence
+-4.2:5.7
+27:3
+-3:-27
 foo <- 5.3
 bar <- foo:(-47+1.5)    # Sequence
 bar
@@ -122,6 +125,8 @@ myvec[2]
 foo <- myvec[2]
 foo
 myvec[length(myvec)]
+myvec[length(myvec)+1]      # NA - not available
+myvec[-length(myvec)-1]     # get all entries of the original vector
 myvec.len = length(x=myvec)
 bar <- myvec[myvec.len-1]
 bar
@@ -129,5 +134,50 @@ bar
 myvec
 myvec[-1]
 myvec
-bar <- myvec[-2]
+baz <- myvec[-2]
+baz
+qux <- myvec[-(myvec.len-1)]
+qux
+c(qux[-length(qux)], bar, qux[length(qux)])
+myvec[c(1,3,5)]
+1:4
+foo <- myvec[1:4]
+foo
+length(foo):2
+foo[length(foo):2]
+indexes <- c(4, rep(x=2, times=3), 1, 1, 2, 3:1)
+indexes
+foo[indexes]
+-c(1,3)
+foo[-c(1,3)]
+foo[c(1,-3)]    # Error: mix positive and negative indexes in a single index vector
+bar <- c(3,2,4,4,1,2,4,1,0,0,5)
+bar[1] = 6
 bar
+bar[c(2,4,6)] <- c(-2,-0.5,-1)
+bar
+bar[7:10] <- 100
+bar
+
+# Exercises
+a_vec = c(seq(from=3, to=6, length.out=5), rep(c(2,-5.1,-33), times=2), 7/42+2)
+a_vec
+first_value = a_vec[1]
+first_value
+last_value = a_vec[length(a_vec)]
+last_value
+c_vec = a_vec[c(-1, -length(a_vec))]
+c_vec
+c(first_value, c_vec, last_value)
+a_vec = sort(x=a_vec, decreasing=FALSE)
+a_vec
+a_vec[length(a_vec):1]
+sort(x=a_vec, decreasing=TRUE)
+c(rep(x=c_vec[3], times=3), rep(x=c_vec[6], times=4), c_vec[length(c_vec)])
+h_vec = a_vec
+h_vec
+h_vec[c(1, 5:7, length(h_vec))] <- 99:95
+h_vec
+a_vec
+
+# Vector-Oriented Behavior
