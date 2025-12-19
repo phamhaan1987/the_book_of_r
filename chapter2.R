@@ -160,21 +160,21 @@ bar[7:10] <- 100
 bar
 
 # Exercises
-a_vec = c(seq(from=3, to=6, length.out=5), rep(c(2,-5.1,-33), times=2), 7/42+2)
+a_vec <- c(seq(from=3, to=6, length.out=5), rep(c(2,-5.1,-33), times=2), 7/42+2)
 a_vec
-first_value = a_vec[1]
+first_value <- a_vec[1]
 first_value
-last_value = a_vec[length(a_vec)]
+last_value <- a_vec[length(a_vec)]
 last_value
-c_vec = a_vec[c(-1, -length(a_vec))]
+c_vec <- a_vec[c(-1, -length(a_vec))]
 c_vec
 c(first_value, c_vec, last_value)
-a_vec = sort(x=a_vec, decreasing=FALSE)
+a_vec <- sort(x=a_vec, decreasing=FALSE)
 a_vec
 a_vec[length(a_vec):1]
 sort(x=a_vec, decreasing=TRUE)
 c(rep(x=c_vec[3], times=3), rep(x=c_vec[6], times=4), c_vec[length(c_vec)])
-h_vec = a_vec
+h_vec <- a_vec
 h_vec
 h_vec[c(1, 5:7, length(h_vec))] <- 99:95
 h_vec
@@ -198,12 +198,12 @@ foo[c(1,3,5,6)] <- c(-99,99)
 foo
 
 # Exercises
-a_vec = c(2,0.5,1,2,0.5,1,2,0.5,1)
+a_vec <- c(2,0.5,1,2,0.5,1,2,0.5,1)
 a_vec
 a_vec[1:length(a_vec)] <- seq(from=1, to=1, length.out=3)
 a_vec
 5/9 * (c(45, 77, 20, 19, 101, 120, 212)-32)     # C = 5/9 * (F-32)
-c_vec = c(2,4,6) * rep(c(1,2), each=3)  # the same with c(2,4,6,4,8,12)
+c_vec <- c(2,4,6) * rep(c(1,2), each=3)  # the same with c(2,4,6,4,8,12)
 c_vec
 c_vec[2:5] <- c(-0.1,-100)
 c_vec
