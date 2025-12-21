@@ -393,9 +393,69 @@ DOB
 DOB[3]
 which(DOB > as.Date("1985-08-01"))
 format(x=DOB, format="%d")
-format(x=DOB,format="%Y")
-format(x=DOB,format="%b %y")
+format(x=DOB, format="%Y")
+format(x=DOB, format="%b %y")
 weekdays(DOB)
 quarters(DOB)
 
 ### Performing Simple Operations with Dates
+d1
+d1 + 1  # Error: non-numeric argument to binary operator
+date1
+date1 + 1
+as.numeric(date1 + 1)   # number of days from 01/01/1970
+as.numeric(as.Date("1970-01-01"))   # Day 0
+as.numeric(as.Date(x="1969-12-25"))
+date1 + 139
+term <- as.Date(x="1947-07-30")
+ramb <- as.Date(x="1946-07-06")
+term - ramb
+date1 - DOB
+as.Date(x=481, origin="1970-01-01")
+as.Date(x=481, origin=date1)
+
+### Incorporating Time
+Sys.time()
+dtime1 <- strptime(x="2022-10-31 19:34:12", format="%Y-%m-%d %H:%M:%S")
+dtime1
+dtime2 <- strptime(x="2022-10-31 19:34:12", format="%Y-%m-%d %H:%M:%S", tz="GMT")
+dtime2
+OlsonNames() # the collection of time zone values for tz argument of strptime function
+Sys.timezone()
+dtime3 <- strptime(x="2022-10-31 19:34:12", format="%Y-%m-%d %H:%M:%S", tz="US/Pacific")
+dtime3
+dtime4 <- strptime(x="2022-12-25 08:45:00", format="%Y-%m-%d %H:%M:%S", tz="US/Pacific")
+dtime4
+dtime1 - dtime2
+as.numeric(dtime1)  # the converted value in terms of the number of seconds since January 1, 1970, at 00:00:00 GMT
+
+## Exercises ##
+holidays <- c("Waitangi Day","Good Friday","Easter Monday","ANZAC Day","King's Birthday","Matariki","Labour Day")
+holidays
+holidays_2024 <- as.Date(x=c("2024 Feb. 6","2024 Mar. 29","2024 Apr. 1","2024 Apr. 25","2024 Jun. 3","2024 Jun. 28","2024 Oct. 28"), format="%Y %b. %d")
+holidays_2024
+holidays_2025 <- as.Date(x=c("2025 Feb. 6","2025 Apr. 18","2025 Apr. 21","2025 Apr. 25","2025 Jun. 2","2025 Jun. 20","2025 Oct. 27"), format="%Y %b. %d")
+holidays_2025
+weekdays(holidays_2024)
+weekdays(holidays_2025)
+which(weekdays(holidays_2024) == weekdays(holidays_2025))
+which(weekdays(holidays_2024) != weekdays(holidays_2025))
+holidays[weekdays(holidays_2024) == weekdays(holidays_2025)]
+holidays[weekdays(holidays_2024) != weekdays(holidays_2025)]
+quarters(holidays_2024)
+quarters(holidays_2025)
+format(x=holidays_2024, format="%b")
+format(x=holidays_2025, format="%d")
+holidays_2024[which(holidays=="Waitangi Day")] - holidays_2024[which(holidays=="King's Birthday")]
+holidays_2024[1] - holidays_2024[5]
+holidays_2024[which(holidays=="Matariki")] - holidays_2025[which(holidays=="Matariki")]
+holidays_2025[which(holidays=="Labour Day")] - as.Date(x='2025-12-25')
+
+STAT372_time <- strptime(x="2022-05-27 11:00:00", format="%Y-%m-%d %H:%M:%S", tz="NZ")
+STAT372_time
+STAT260_time <- strptime(x="2022-07-11 13:00:00", format="%Y-%m-%d %H:%M:%S", tz="NZ")
+STAT260_time
+as.numeric(x=STAT260_time, tz="NZ")
+STAT372_last_time <- STAT372_time + 50*60    # arithmetic operations on your date-time objects will be performed in seconds
+STAT372_last_time
+STAT260_time - STAT372_last_time
