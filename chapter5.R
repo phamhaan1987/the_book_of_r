@@ -87,3 +87,89 @@ b_list$oldlist
 b_list$oldlist <- "Don Quixote"
 b_list$oldlist
 
+## Data Frame
+### Construction
+mydata <- data.frame(
+    person=c("Peter","Lois","Meg","Chris","Stewie"),
+    age=c(42,40,17,14,1),
+    sex=factor(c("M","F","F","M","M"))
+)   # in a data frame, the members must all be vectors of equal length
+mydata
+str(mydata)
+dim(mydata)
+nrow(mydata)
+ncol(mydata)
+head(mydata, n=3)   # by default, n=6
+tail(mydata, n=2)
+colnames(mydata)
+rownames(mydata)
+dimnames(mydata)    # a list of 2 members: row names and column names
+
+### Basic Subsets
+mydata[2,2]
+mydata[3:5,3]
+mydata[,c(3,1)]
+mydata[[2]]
+mydata$age
+all(mydata[[2]] == mydata$age)
+
+### Column Insertions and Data Frame Combinations
+newrecord <- data.frame(person="Brian", age=7, sex=factor("M",levels=levels(mydata$sex)))   # simply writing sex=factor("M") or even sex="M" is worked
+newrecord
+mydata
+mydata <- rbind(mydata, newrecord)
+mydata
+funny <- c("High","High","Low","Med","High","Med")
+funny <- factor(x=funny, levels=c("Low","Med","High"))
+funny
+mydata <- cbind(mydata, funny)
+mydata
+mydata$age.mon <- mydata$age*12
+mydata
+str(mydata)
+
+### Logical Record Subsets
+mydata$sex == "M"
+mydata[mydata$sex=="M",]
+mydata[mydata$sex=="M",-3]
+mydata[mydata$sex=="M",c("person","age","funny","age.mon")]
+mydata[mydata$age<10 | mydata$funny=="High",]
+mydata[mydata$age>45,]
+
+### The Explicit subset Command
+mydata[mydata$age>10 | mydata$funny=="High", c("age.mon","sex")]
+subset(x=mydata, subset=age>10|funny=="High", select=c("age.mon","sex"))
+
+## Exercises ##
+dframe = data.frame(
+    person=c("Stan","Francine","Steve","Roger","Hayley","Klaus"),
+    sex=factor(x=c("M","F","M","M","F","M"), levels=c("F","M")),
+    funny=factor(x=c("High","Med","Low","High","Med","Med"), levels=c("Low","Med","High"))
+)
+dframe
+str(dframe)
+dim(dframe)
+nrow(dframe)
+ncol(dframe)
+rownames(dframe)
+colnames(dframe)
+dimnames(dframe)
+
+dframe
+dframe$age <- c(41,41,15,1600,21,60)
+dframe
+
+dframe <- data.frame(person=dframe[[1]],age=dframe[[4]],sex=dframe[[2]],funny=dframe[[3]])
+dframe
+
+mydata
+mydata2 <- mydata[,-5]
+mydata2
+
+mydataframe <- rbind(dframe, mydata2)
+mydataframe
+
+mydataframe[mydataframe$sex=="F"&(mydataframe$funny=="Med"|mydataframe$funny=="High"),c("person","age")]
+
+mydataframe[substr(x=mydataframe$person,start=1,stop=1)=="S",]
+subset(x=mydataframe, subset=substr(x=person,start=1,stop=1)=="S")
