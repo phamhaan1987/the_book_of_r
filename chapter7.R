@@ -9,6 +9,7 @@ plot(foo, bar)
 
 baz <- cbind(foo, bar)
 plot(baz)
+?plot
 ?plot.default
 
 ## Visual Controls and Graphical Parameters
@@ -29,3 +30,7 @@ plot(foo, bar, type="b")
 plot(foo, bar, type="n")    # option type="n" results in no points or lines plotted, creating an empty plot
 
 ### Title and Axis Label
+plot(foo, bar, main="My lovely plot", xlab="x axis label", ylab="location y")   # by default, a basic plot doesn’t have a main title, and its axes are labeled with the names of the vectors being plotted
+plot(foo, bar, type="b", main="My lovely plot\ntitle on two lines", xlab="", ylab="")
+
+### Color
