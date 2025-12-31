@@ -15,8 +15,8 @@ plot(baz)
 ## Visual Controls and Graphical Parameters
 ## graphical parameters of plot function
 ## type: Tells R how to plot the supplied coordinates (for example, as stand-alone points or joined by lines or both dots and lines)
-## main, xlab, ylab: Provides options to include plot title, the horizontal axis label, and the vertical axis label, respectively
-## col: Chooses color (or colors) to use for plotting points and lines
+## main, xlab (x-axis label), ylab (y-axis label): Provides options to include plot title, the horizontal axis label, and the vertical axis label, respectively
+## col (color): Chooses color (or colors) to use for plotting points and lines
 ## pch (point character): Selects which character to use for plotting individual points
 ## cex (character expansion): Controls the size of plotted point characters
 ## lty (line type): Specifies the type of line to use to connect the points (for example, solid, dotted, or dashed)
@@ -102,3 +102,84 @@ legend(
     pch=c(1,2),
     pt.cex=c(2,2)
 )
+
+## The ggplot2 Package
+## Install ggplot2 - grammar of graphics: the concept of defining and manipulating layers
+
+### Plotting a Toy Example
+.libPaths("C:/Program Files/R/R-4.5.2/library")
+install.packages("ggplot2")
+library("ggplot2")
+
+foo <- c(1.1,2,3.5,3.9,4.2)
+bar <- c(2,2.2,-1.3,0,0.2)
+fb <- data.frame(foo,bar)
+fb
+ggplot(data=fb, mapping=aes(x=foo,y=bar))
+ggplot(data=fb, mapping=aes(x=foo,y=bar)) + geom_point()
+ggplot(data=fb, mapping=aes(x=foo,y=bar)) + 
+    geom_point() +
+    ggtitle("My lovely ggpolt") +
+    xlab("x asix label") + 
+    ylab("location y")
+
+baz <- plot(foo, bar)
+baz
+qux <- ggplot(data=fb, mapping=aes(x=foo,y=bar)) + geom_point()
+qux
+
+### Setting Appearance Constants with Geoms
+ggplot(data=fb, mapping=aes(x=foo,y=bar)) +
+    geom_point() + 
+    geom_line()
+
+ggplot(data=fb, mapping=aes(x=foo,y=bar)) +
+    geom_point(size=3, shape=6, color="blue") + 
+    geom_line(color="red", linetype=2)
+
+myggplot <- ggplot(data=fb,mapping=aes(x=foo,y=bar)) +
+    geom_line(color="red",linetype=2)
+myggplot
+myggplot + geom_point(size=3,shape=3,color="blue")
+myggplot + geom_point(size=3,shape=7,color="blue")
+??geom_
+
+### Aesthetic Mapping with Geoms
+x <- 1:20
+y <- c(-1.49,3.37,2.59,-2.78,-3.94,-0.92,6.43,8.51,3.41,-8.23,
+    -12.01,-6.58,2.87,14.12,9.63,-4.58,-14.78,-11.67,1.17,15.62)
+xydata <- data.frame(x, y)
+
+ptype <- rep("too_big", times=length(x))
+ptype[y<=-5] <- "too_small"
+ptype[(x>=5&x<=15)&(y>-5&y<5)] <- "sweet"
+ptype[(x<5|x>15)&(y>-5&y<5)] <- "standard"
+ptype
+ptype <- factor(ptype)
+ptype
+xydata$ptype <- ptype
+xydata
+str(xydata)
+
+gg <- ggplot(data=xydata, mapping=aes(x=x,y=y,color=ptype,shape=ptype))
+gg + geom_point()
+gg + geom_point(size=4) +
+    geom_hline(yintercept=c(-5,5),color="red") +
+    # geom_line(color="black",lty=2)
+    geom_line(mapping=aes(group=1),color="black",lty=2) +   # lty=2 ~ linetype=2
+    geom_segment(mapping=aes(x=5,y=-5,xend=5,yend=5),color="red",lty=3) +
+    geom_segment(mapping=aes(x=15,y=-5,xend=15,yend=5),color="red",lty=3)
+
+## Exercises ##
+weight <- c(55,85,75,42,93,63,58,75,89,67)
+height <- c(161,185,174,154,188,178,170,167,181,178)
+sex <- factor(c("Female","Male","Male","Female","Male","Male","Female","Male","Male","Female"))
+df <- data.frame(weight,height,sex)
+df
+str(df)
+
+ggplot(data=df, mapping=aes(x=weight,y=height,color=sex,shape=sex)) +
+    geom_point() +
+    ggtitle("Weigh and Height by Sex") +
+    xlab("Weight (kg)") + 
+    ylab("Height (cm)")
