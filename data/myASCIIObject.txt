@@ -1,0 +1,3 @@
+list(aa = c(5, 2, 45), bb = structure(c(TRUE, TRUE, FALSE, FALSE, 
+FALSE, FALSE, TRUE, FALSE, TRUE), dim = c(3L, 3L)), cc = structure(c(1L, 
+1L, 2L, 3L, 1L, 1L, 3L), levels = c("A", "B", "C"), class = "factor"))
