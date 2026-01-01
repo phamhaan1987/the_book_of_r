@@ -133,6 +133,8 @@ ggplot(data=Duncan, mapping=aes(x=education,y=income,color=prestige_group)) +
 ggsave(filename="data/8_1_b_2.png")
 
 ## Ad Hoc Object Read/Write Operations
+library("ggplot2")
+
 x <- 8
 foo <- c(1.1,2,3.5,3.9,4.2)
 bar <- c(2,2.2,-1.3,0,0.2)
@@ -144,3 +146,65 @@ somelist <- list(aa=c(5,2,45),
     bb=matrix(data=c(T,T,F,F,F,F,T,F,T),nrow=3,ncol=3),
     cc=factor(c(1,1,2,3,1,1,3),labels=c("A","B","C")))
 ls()
+
+### save and load
+save(somelist,lookatme,file="data/mySavedObjects.Rdata")
+rm(list=ls())
+ls()
+load(file="data/mySavedObjects.Rdata")
+ls()
+
+save.image(file="data/myImageObjects.Rdata")
+rm(list=ls())
+ls()
+load(file="data/myImageObjects.Rdata")  # any loaded objects that possess the same name as any objects already present in the workspace doing the loading will silently overwrite those existing items
+ls()
+
+### saveRDS and readRDS
+saveRDS(object=somelist, file="data/mySerializedObject.rds")
+somenewname <- readRDS(file="data/mySerializedObject.rds")  # Unlike load, readRDS isn’t used in isolation; need to assign the result of readRDS to a locally named variable
+somenewname
+
+### dput and dget
+dput(x=somelist, file="data/myASCIIObject.txt") # Rather than serialization, dput/dget deal with humanreadable plaintext representations (ASCII) of the object
+somenewname2 <- dget(file="data/myASCIIObject.txt")
+somenewname2
+
+### Suitability
+### Use save/load (.Rdata extensions): save one or more R objects “in place”
+### saveRDS/readRDS (.rds extensions): serialize a target object for efficient storage, save only single objects or a list of objects
+### Use dput/dget (.txt extensions): note these save/read the object in plaintext ASCII form as opposed to using serialization
+
+## Exercises ##
+AR <- array(data=1:24, dim=c(3,4,2))
+AR
+saveRDS(object=AR, file="data/AR_Object.rds")
+dput(x=AR, file="data/AR_Object.txt")
+AR_rds <- readRDS(file="data/AR_Object.rds")
+AR_rds
+all(AR_rds == AR)
+AR_txt <- dget(file="data/AR_Object.txt")
+AR_txt
+all(AR_txt == AR)
+
+library("car")
+exer <- list(quakes, Duncan)
+dput(x=exer, file="data/Exercise8-2.txt")
+list.of.dataframes <- dget(file="data/Exercise8-2.txt")
+length(list.of.dataframes)
+class(list.of.dataframes[[1]])
+class(list.of.dataframes[[2]])
+
+mystery_object <- readRDS(file="data/mysteryobject.rds")
+mystery_object
+save(mystery_object, file="data/mysteryobject.Rdata")
+
+rm(list=ls())
+x <- 37
+x
+load(file="data/objects.Rdata")
+x
+ls()
+x
+y
+z
