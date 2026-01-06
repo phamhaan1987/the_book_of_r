@@ -127,15 +127,15 @@ if (a<=mynumber && mynumber>3) {
 ### The switch Function
 mystring <- "Lisa"
 
-if(mystring=="Homer"){
+if (mystring=="Homer") {
     foo <- 12
-} else if(mystring=="Marge"){
+} else if (mystring=="Marge") {
     foo <- 34
-} else if(mystring=="Bart"){
+} else if (mystring=="Bart") {
     foo <- 56
-} else if(mystring=="Lisa"){
+} else if (mystring=="Lisa") {
     foo <- 78
-} else if(mystring=="Maggie"){
+} else if (mystring=="Maggie") {
     foo <- 90
 } else {
     foo <- NA
@@ -228,3 +228,150 @@ dosage
 
 mynum <- 0
 switch(as.character(mynum),"0"="zero","1"="one","2"="two","3"="three","4"="four","5"="five","6"="six","7"="seven","8"="eight","9"="nine")
+
+## for Loops
+## A loop is a core programming mechanism that repeats a specified section of code, typically while incrementing an index or counter. There are two main styles of looping: the for loop and the while loop.
+
+### Definition and Basics
+### The R for loop takes the following general form:
+### for (loopindex in loopvector) {
+###     do any code in here
+### }
+for (myitem in 5:7) {
+    cat("--BRACED AREA BEGINS--\n")
+    cat("the current item is", myitem, "\n")
+    cat("--BRACED AREA ENDS--\n\n")
+}
+
+counter <- 0
+for (myitem in 5:7) {
+    counter <- counter+1
+    cat("The item in run", counter, "is", myitem, "\n")
+}
+
+str(ChickWeight)
+head(ChickWeight, 6)
+chick.ids <- levels(ChickWeight$Chick)
+chick.ids
+chick.total <- 0
+for (i in 1:length(chick.ids)) {
+    chick.weights <- ChickWeight[ChickWeight$Chick==chick.ids[i],"weight"]
+    maxweight <- max(chick.weights)
+    chick.total <- chick.total + maxweight
+}
+chick.avg <- chick.total/length(chick.ids)
+chick.avg
+
+### Via Index or Value
+myvec <- c(0.4,1.1,0.34,0.55)
+for (i in myvec) {
+    print(2*i)
+}
+
+for (i in 1:length(myvec)) {
+    print(2*myvec[i])
+}
+
+foo <- list(aa=c(3.4,1),bb=matrix(1:4,2,2),cc=matrix(c(T,T,F,T,F,F),3,2), dd="string here",ee=matrix(c("red","green","blue","yellow")))
+foo
+name <- names(foo)
+name
+is.mat <- rep(NA, length((name)))
+nr <- is.mat
+nc <- is.mat
+data.type <- is.mat
+for (i in 1:length(name)) {
+    if (is.matrix(foo[[i]])) {
+        is.mat[i] <- "Yes"
+        nr[i] <- nrow(foo[[i]])
+        nc[i] <- ncol(foo[[i]])
+        data.type[i] <- class(as.vector(foo[[i]]))
+    } else {
+        is.mat[i] <- "No"
+    }
+}
+bar <- data.frame(name, is.mat, nr, nc, data.type)
+bar
+
+### Nests
+loopvec1 <- 5:7
+loopvec1
+loopvec2 <- 9:6
+loopvec2
+foo <- matrix(NA, length(loopvec1), length(loopvec2))
+foo
+for (i in 1:length(loopvec1)) {
+    for (j in 1:length(loopvec2)) {
+        foo[i,j] <- loopvec1[i]*loopvec2[j]
+    }
+}
+foo
+
+foo <- matrix(NA,length(loopvec1),length(loopvec2))
+foo
+for (i in 1:length(loopvec1)) {
+    for (j in 1:i) {
+        foo[i,j] <- loopvec1[i]+loopvec2[j]
+    }
+}
+foo
+
+## Exercises ##
+loopvec1 <- 5:7
+loopvec2 <- 9:6
+foo <- matrix(NA, length(loopvec1), length(loopvec2))
+# for (i in 1:length(loopvec2)) {
+#     foo[,i] <- loopvec1*loopvec2[i]
+# }
+for (i in 1:length(loopvec1)) {
+    foo[i,] <- loopvec1[i]*loopvec2
+}
+foo
+
+mystring <- "Lisa"
+switch(EXPR=mystring,Homer=12,Marge=34,Bart=56,Lisa=78,Maggie=90,NA)
+mystr_vec <- c("Peter","Homer","Lois","Stewie","Maggie","Bart")
+mynum_vec <- rep(NA, times=length(mystr_vec))
+for (i in 1:length(mystr_vec)) {
+    mynum_vec[i] <- switch(EXPR=mystr_vec[i],Homer=12,Marge=34,Bart=56,Lisa=78,Maggie=90,NA)
+}
+mynum_vec
+
+str(ChickWeight)
+head(ChickWeight, 6)
+chick.ids <- levels(ChickWeight$Chick)
+chick.ids
+chick.total <- 0
+for (i in chick.ids) {
+    chick.weights <- ChickWeight[ChickWeight$Chick==i,"weight"]
+    maxweight <- max(chick.weights)
+    chick.total <- chick.total + maxweight
+}
+chick.avg <- chick.total/length(chick.ids)
+chick.avg
+
+# mylist <- list(aa=c(3.4,1),
+#             bb=matrix(1:4,2,2),
+#             cc=matrix(c(T,T,F,T,F,F),3,2),
+#             dd="string here",
+#             ee=list(c("hello","you"),matrix(c("hello","there"))),
+#             ff=matrix(c("red","green","blue","yellow")))
+# mylist <- list("tricked you",as.vector(matrix(1:6,3,2)))
+mylist <- list(list(1,2,3),
+            list(c(3,2),2),
+            list(c(1,2),matrix(c(1,2))),rbind(1:10,100:91))
+count <- 0
+for (i in 1:length(mylist)) {
+    if (is.list(mylist[[i]])) {
+        for (j in mylist[[i]]) {
+            if (is.matrix(j)) {
+                count <- count+1
+            }
+        }
+    } else {
+        if (is.matrix(mylist[[i]])) {
+            count <- count+1
+        }
+    }
+}
+count
