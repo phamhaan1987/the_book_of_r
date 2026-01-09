@@ -375,3 +375,154 @@ for (i in 1:length(mylist)) {
     }
 }
 count
+
+## while Loops
+## In contrast to for loops, you typically deploy a while loop in situations where you cannot easily determine how many times the desired operations need to be run. Instead, we build the loop based solely on a logical-valued condition.
+
+### Definition and Basics
+### while (loopcondition) {
+###     do any code in here
+### }
+myval <- 5
+while (myval<10) {
+    myval <- myval+1
+    cat("\n'myval' is now", myval, "\n")
+    cat("'mycondition' is now", myval<10, "\n")
+}
+
+### Condition Object Modification
+mylist <- list()
+counter <- 1
+mynumbers <- c(4,5,1,2,6,2,4,6,6,2)
+mycondition <- mynumbers[counter]<=5
+while (mycondition) {
+    mylist[[counter]] <- diag(mynumbers[counter])
+    counter <- counter+1
+    if (counter<=length(mynumbers)) {
+        mycondition <- mynumbers[counter]<=5
+    } else {
+        mycondition <- FALSE
+    }
+}
+mylist
+
+chick.diet1 <- ChickWeight[ChickWeight$Diet=="1",]
+chick.ids <- levels(droplevels(chick.diet1$Chick))
+chick.ids
+length(chick.ids)
+chick.total <- 0
+chick.avg <- 0
+chick.index <- 0
+while (chick.avg<=100) {
+    chick.index <- chick.index + 1
+    chicksub <- chick.diet1[chick.diet1$Chick==chick.ids[chick.index],]
+    maxweight <- max(chicksub$weight)
+    chick.total <- chick.total + maxweight
+    chick.avg <- chick.total/chick.index
+}
+chick.avg
+chick.index
+chich.ids[1:chick.index]
+
+## Exercises ##
+mynum <- 0
+factorial <- 1
+while (mynum > 0) {
+    factorial <- factorial*mynum
+    mynum <- mynum-1
+}
+factorial
+
+# mystring <- "R fever"
+# mystring <- "beautiful"
+# mystring <- "ECCENTRIC"
+# mystring <- "ElAbOrAte"
+mystring <- "eeeeek!"
+index <- 1
+ecount <- 0
+result <- mystring
+while (ecount<2 && index<=nchar(mystring)) {
+    if (substr(mystring,index,index)=="e" || substr(mystring,index,index)=="E") {
+        ecount <- ecount+1
+    }
+    if (ecount==2) {
+        result <- substr(mystring,1,index-1)
+    } else {
+        result <- substr(mystring,1,index)
+    }
+    index <- index+1
+}
+result
+
+##  Implicit Looping
+## In some situations, especially for relatively routine loops, you can avoid the need to specify some of the details associated with explicit looping by using the apply suite of functions, which provide “loop-like” behavior in a short-hand, implicit fashion.
+
+### The apply Function
+foo <- matrix(1:12,4,3)
+foo
+sum(foo)    # do not find the sum of each row
+row.totals <- rep(NA, times=nrow(foo))
+for (i in 1:nrow(foo)) {
+    row.totals[i] <- sum(foo[i,])
+}
+row.totals
+
+row.total2 <- apply(X=foo, MARGIN=1, FUN="sum")
+row.total2
+apply(X=foo,MARGIN=2,FUN=sum)
+
+bar <- array(1:18,dim=c(3,3,2))
+bar
+apply(bar, 3, diag)
+
+### Some apply Variants
+dia.url <- "http://jse.amstat.org/v9n2/4Cdata.txt"
+diamonds <- read.table(dia.url)
+names(diamonds) <- c("Carat","Color","Clarity","Cert","Price")
+head(diamonds,5)
+tapply(X=diamonds$Price, INDEX=diamonds$Color, FUN=sum) # The tapply function performs operations on subsets of the object of interest, where those subsets are defined in terms of one or more factor vectors.
+
+baz <- list(aa=c(3.4,1),
+            bb=matrix(1:4,2,2),
+            cc=matrix(c(T,T,F,T,F,F),3,2),
+            dd="string here",ee=matrix(c("red","green","blue","yellow")))
+baz
+lapply(X=baz, FUN=is.matrix)    # lapply function, which operates member by member on a list. The returned value is itself a list.
+
+sapply(X=baz, FUN=is.matrix)    # sapply function returns the same results as lapply but in the form of an array
+
+?mapply     # Other Variants
+?vapply     # Other Variants
+
+### When to Use Implicit Loops
+foo <- matrix(1:12,4,3)
+foo
+apply(X=foo, MARGIN=1, FUN=sort, decreasing=TRUE)
+
+## Exercises ##
+foo <- matrix(1:12,4,3)
+foo
+bar <- apply(X=foo, MARGIN=1, FUN=sort, decreasing=TRUE)
+bar
+apply(X=bar, MARGIN=2, FUN=prod)
+
+matlist <- list(matrix(c(T,F,T,T),2,2),
+                matrix(c("a","c","b","z","p","q"),3,2),
+                matrix(1:8,2,4))
+matlist
+# for (i in 1:length(matlist)) {
+#     matlist[[i]] <- t(matlist[[i]])
+# }
+matlist <- lapply(X=matlist, FUN="t")
+matlist
+
+qux <- array(96:1,dim=c(4,4,2,3))
+qux
+qux[,,2,]
+apply(X=qux[,,2,],MARGIN=3, FUN=diag)
+apply(X=qux[,4,,], MARGIN=3, FUN=dim)
+apply(X=apply(X=qux[,4,,], MARGIN=3, FUN=dim), MARGIN=1, FUN=sum)
+
+str(ChickWeight)
+max_weights <- tapply(X=ChickWeight$weight, INDEX=ChickWeight$Chick, FUN=max)
+sum(max_weights) / length(max_weights)
