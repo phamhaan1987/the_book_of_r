@@ -526,3 +526,130 @@ apply(X=apply(X=qux[,4,,], MARGIN=3, FUN=dim), MARGIN=1, FUN=sum)
 str(ChickWeight)
 max_weights <- tapply(X=ChickWeight$weight, INDEX=ChickWeight$Chick, FUN=max)
 sum(max_weights) / length(max_weights)
+
+## Other Control Flow Mechanisms
+## three more control flow mechanisms: break, next, and repeat. These mechanisms are often used inconjunction with the loops and if statements.
+
+### break
+foo <- 5
+bar <- c(2,3,1.1,4,0,4.1,3)
+loop1.result <- rep(NA,length(bar))
+loop1.result
+for (i in 1:length(bar)) {
+    temp <- foo/bar[i]
+    if (is.finite(temp)) {
+        loop1.result[i] <- temp
+    } else {
+        break
+    }
+}
+loop1.result
+
+### next
+loop2.result <- rep(NA,length(bar))
+loop2.result
+for (i in 1:length(bar)) {
+    if (bar[i]==0) {
+        next
+    }
+    loop2.result[i] <- foo/bar[i]
+}
+loop2.result
+
+loopvec1 <- 5:7
+loopvec1
+loopvec2 <- 9:6
+loopvec2
+baz <- matrix(NA,length(loopvec1),length(loopvec2))
+baz
+for (i in 1:length(loopvec1)) {
+    for (j in 1:length(loopvec2)) {
+        temp <- loopvec1[i]*loopvec2[j]
+        if(temp>=54) {
+            next
+        }
+        baz[i,j] <- temp
+    }
+}
+baz
+
+### repeat
+### A lesser-known option for repeating a set of operations is the repeat statement:
+### repeat{
+###     do any code in here
+### }
+fib.a <- 0
+fib.b <- 1
+repeat {
+    temp <- fib.a+fib.b
+    fib.a <- fib.b
+    fib.b <- temp
+    cat(fib.b, ", ", sep="")
+    if (fib.b > 150) {
+        cat("BREAK NOW...\n")
+        break
+    }
+}
+
+## Exercises ##
+foo <- 5
+bar <- c(2,3,1.1,4,0,4.1,3)
+loop1.result <- rep(NA,length(bar))
+loop1.result
+count <- 1
+while (count <= length(bar)) {
+    if (is.finite(foo/bar[count])) {
+        loop1.result[count] <- foo/bar[count]
+        count <- count+1
+    } else {
+        count <- length(bar)+1
+    }
+}
+loop1.result
+
+foo <- 5
+bar <- c(2,3,1.1,4,0,4.1,3)
+loop2.result <- rep(NA,length(bar))
+loop2.result
+ifelse(is.finite(foo/bar), foo/bar, NA)
+
+mynumbers <- c(4,5,1,2,6,2,4,6,6,2)
+mylist <- list()
+for (i in 1:length(mynumbers)) {
+    if (i < 5) {
+        mylist[[i]] <- diag(mynumbers[i])
+    } else {
+        break
+    }
+}
+mylist
+
+mynumbers <- c(4,5,1,2,6,2,4,6,6,2)
+mylist <- list()
+count <- 1
+repeat {
+    if ((mynumbers[count]>=5) || (count>length(mynumbers))) {
+        break
+    }
+    mylist[[count]] <- diag(mynumbers[count])
+    count <- count+1
+}
+mylist
+
+# matlist1 <- list(matrix(1:4,2,2),matrix(1:4),matrix(1:8,4,2))
+# matlist2 <- matlist1
+matlist1 <- list(matrix(1:4,2,2),matrix(2:5,2,2),matrix(1:16,8,2))
+matlist2 <- list(matrix(1:8,2,4),matrix(10:7,2,2),matrix(9:2,4,2))
+reslist <- list()
+counter <- 1
+for (i in 1:length(matlist1)) {
+    for (j in 1:length(matlist2)) {
+        if (ncol(matlist1[[i]]) == nrow(matlist2[[j]])) {
+            reslist[[counter]] <- matlist1[[i]] %*% matlist2[[j]]
+        } else {
+            reslist[[counter]] <- "not possible"
+        }
+        counter <- counter+1
+    }
+}
+reslist
